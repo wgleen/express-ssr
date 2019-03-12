@@ -4,7 +4,7 @@ import url from 'url'
 const botList = /(googlebot\/|googlebot|googlebot-mobile|yandexbot|pinterest.*ios|mail\.ru|seznambot|screaming|bot|spider|pinterest|crawler|archiver|flipboardproxy|mediapartners|facebookexternalhit|quora)/gi
 
 const expressSSR = (req, res, next) => {
-  let parsedUrl
+  const _url = req.protocol + '://' + req.get('host') + req.originalUrl
 
   const ssr = async () => {
     try {
@@ -13,7 +13,7 @@ const expressSSR = (req, res, next) => {
       
       await page.setUserAgent('Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.36')
 
-      await page.goto(parsedUrl.path, {
+      await page.goto(_url, {
         waitUntil: 'networkidle0'
       })
 
@@ -31,7 +31,7 @@ const expressSSR = (req, res, next) => {
   if (req.method !== 'GET' && req.method !== 'HEAD')
     return next()
 
-  parsedUrl = url.parse(req.url, true)
+  const parsedUrl = url.parse(_url, true)
 
   if (parsedUrl.query && (parsedUrl.query['_escaped_fragment_'] != null))
     return ssr()
