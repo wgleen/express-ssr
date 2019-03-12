@@ -14,10 +14,14 @@
       "presets": [
         ["@babel/preset-env", {
           "useBuiltIns": false
-        }]
+        }],
       ],
       "plugins": [
-        "add-module-exports"
+        "add-module-exports",
+        [
+          "@babel/plugin-transform-runtime", 
+          { "regenerator": true }
+        ]
       ]
     },
     "es": {
@@ -26,6 +30,12 @@
           "useBuiltIns": false,
           "modules": false
         }]
+      ],
+      "plugins": [
+        [
+          "@babel/plugin-transform-runtime", 
+          { "regenerator": true }
+        ]
       ]
     }
   },

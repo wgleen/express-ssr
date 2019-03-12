@@ -8,7 +8,10 @@ const expressSSR = (req, res, next) => {
 
   const ssr = async () => {
     try {
-      const browser = await puppeteer.launch({headless: true})
+      const browser = await puppeteer.launch({
+        headless: true,
+        args: ['--no-sandbox']
+      })
       const page = await browser.newPage()
       
       await page.setUserAgent('Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.36')
